@@ -14,7 +14,21 @@ func TestGETStations(t *testing.T) {
 		StationServer(response, request)
 
 		got := response.Body.String()
-		want := "https://s9.yesstreaming.net:17008/stream"
+		want := "OffRadioURL"
+
+		if got != want {
+			t.Errorf("got %q, want %q", got, want)
+		}
+	})
+
+	t.Run("returns en lefko url", func(t *testing.T) {
+		request, _ := http.NewRequest(http.MethodGet, "/stations/EnLefko", nil)
+		response := httptest.NewRecorder()
+
+		StationServer(response, request)
+
+		got := response.Body.String()
+		want := "EnLefkoURL"
 
 		if got != want {
 			t.Errorf("got %q, want %q", got, want)
