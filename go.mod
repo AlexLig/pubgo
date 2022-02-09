@@ -1,3 +1,3 @@
-module github.com/AlexLig/pubgo
+module pubgo
 
 go 1.17

@@ -1,11 +1,11 @@
 package main
 
-import "fmt"
-
-func Hello(name string) string {
-	return "Hello, " + name
-}
+import (
+	"log"
+	"net/http"
+)
 
 func main() {
-	fmt.Println(Hello("World"))
+	handler := http.HandlerFunc(StationServer)
+	log.Fatal(http.ListenAndServe(":5000", handler))
 }
