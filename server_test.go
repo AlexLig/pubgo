@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -8,30 +9,33 @@ import (
 
 func TestGETStations(t *testing.T) {
 	t.Run("returns off radio's url", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/stations/OffRadio", nil)
+		request := newGetStationRequest("OffRadio")
 		response := httptest.NewRecorder()
 
 		StationServer(response, request)
 
-		got := response.Body.String()
-		want := "OffRadioURL"
+		assertResponseBody(t, response.Body.String(), "OffRadioURL")
 
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
 	})
 
 	t.Run("returns en lefko url", func(t *testing.T) {
-		request, _ := http.NewRequest(http.MethodGet, "/stations/EnLefko", nil)
+		request := newGetStationRequest("EnLefko")
 		response := httptest.NewRecorder()
 
 		StationServer(response, request)
 
-		got := response.Body.String()
-		want := "EnLefkoURL"
-
-		if got != want {
-			t.Errorf("got %q, want %q", got, want)
-		}
+		assertResponseBody(t, response.Body.String(), "EnLefkoURL")
 	})
+}
+
+func newGetStationRequest(name string) *http.Request {
+	request, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/stations/%s", name), nil)
+	return request
+}
+
+func assertResponseBody(t testing.TB, got, want string) {
+	t.Helper()
+	if got != want {
+		t.Errorf("response body is wrong, got %q want %q", got, want)
+	}
 }
