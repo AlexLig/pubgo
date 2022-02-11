@@ -8,11 +8,12 @@ import (
 )
 
 func TestGETStations(t *testing.T) {
+	server := &StationServer{}
 	t.Run("returns off radio's url", func(t *testing.T) {
 		request := newGetStationRequest("OffRadio")
 		response := httptest.NewRecorder()
 
-		StationServer(response, request)
+		server.ServeHTTP(response, request)
 
 		assertResponseBody(t, response.Body.String(), "OffRadioURL")
 
@@ -22,7 +23,7 @@ func TestGETStations(t *testing.T) {
 		request := newGetStationRequest("EnLefko")
 		response := httptest.NewRecorder()
 
-		StationServer(response, request)
+		server.ServeHTTP(response, request)
 
 		assertResponseBody(t, response.Body.String(), "EnLefkoURL")
 	})
