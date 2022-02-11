@@ -44,6 +44,20 @@ func TestGETStations(t *testing.T) {
 
 		assertResponseBody(t, response.Body.String(), "EnLefkoURL")
 	})
+
+	t.Run("returns 404 on missing stations", func(t *testing.T) {
+		request := newGetStationRequest("Red")
+		response := httptest.NewRecorder()
+
+		server.ServeHTTP(response, request)
+
+		got := response.Code
+		want := http.StatusNotFound
+
+		if got != want {
+			t.Errorf("got status %d want %d", got, want)
+		}
+	})
 }
 
 func newGetStationRequest(name string) *http.Request {
