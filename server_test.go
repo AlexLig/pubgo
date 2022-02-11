@@ -7,8 +7,25 @@ import (
 	"testing"
 )
 
+type StubStationStore struct {
+	urls map[string]string
+}
+
+func (s *StubStationStore) GetStationURL(name string) string {
+	score := s.urls[name]
+	return score
+}
+
 func TestGETStations(t *testing.T) {
-	server := &StationServer{}
+	store := StubStationStore{
+		urls: map[string]string{
+			"OffRadio": "OffRadioURL",
+			"EnLefko":  "EnLefkoURL",
+		},
+	}
+
+	server := &StationServer{store: &store}
+
 	t.Run("returns off radio's url", func(t *testing.T) {
 		request := newGetStationRequest("OffRadio")
 		response := httptest.NewRecorder()
