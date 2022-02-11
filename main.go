@@ -3,9 +3,10 @@ package main
 import (
 	"log"
 	"net/http"
+	"pubgo/server"
 )
 
 func main() {
-	server := &StationServer{}
-	log.Fatal(http.ListenAndServe(":5000", server))
+	server := server.Init()
+	log.Fatal(http.ListenAndServe(":8080", server))
 }
