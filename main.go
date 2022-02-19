@@ -1,9 +1,9 @@
 package main
 
 import (
+	"github.com/AlexLig/pubgo/server"
 	"log"
 	"net/http"
-	"pubgo/server"
 )
 
 func main() {
