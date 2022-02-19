@@ -1,0 +1,7 @@
+.gitignore
+.git
+.dockerignore
+*.md
+# dotenv environment variables file
+.env
+.env.test
