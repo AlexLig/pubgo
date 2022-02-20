@@ -1,32 +1,30 @@
 package main
 
 import (
-	"context"
+	"database/sql"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/AlexLig/pubgo/server"
-	"github.com/jackc/pgx/v4/pgxpool"
+	_ "github.com/jackc/pgx/v4/stdlib"
 )
 
 func main() {
-	dbpool, err := pgxpool.Connect(context.Background(), os.Getenv("DATABASE_URL"))
+	db, err := sql.Open("pgx", os.Getenv("DATABASE_URL"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to connect to database: %v\n", err)
 		os.Exit(1)
 	}
-	defer dbpool.Close()
+	defer db.Close()
 
-	var greeting string
-	err = dbpool.QueryRow(context.Background(), "select 'Hello, world!'").Scan(&greeting)
+	err = db.Ping()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "QueryRow failed: %v\n", err)
 		os.Exit(1)
 	}
 
-	fmt.Println(greeting)
+	fmt.Println("Connected to db")
 
 	server := server.Init()
 	log.Fatal(http.ListenAndServe(":8080", server))
