@@ -10,7 +10,7 @@ services:
       - db
     depends_on:
       - db
-  db:
+  db-development:
     image: postgres
     restart: always
     ports:

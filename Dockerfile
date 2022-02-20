@@ -6,7 +6,7 @@ ENV PORT_EXPOSE="8080"
 
 WORKDIR  /app
 
-COPY go.mod ./
+COPY go.mod go.sum ./
 
 RUN go mod tidy
 
