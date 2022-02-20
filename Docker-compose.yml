@@ -3,5 +3,17 @@ services:
     build: .
     ports:
       - "8080:8080"
+      - "40000:40000"
     env_file:
       - .env.development
+    links:
+      - db
+    depends_on:
+      - db
+  db:
+    image: postgres
+    restart: always
+    ports:
+      - 127.0.0.1:5432:5432
+    environment:
+      POSTGRES_PASSWORD: idontcareitslocal

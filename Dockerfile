@@ -1,19 +1,18 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.17-alpine
+FROM golang:1.17
 
-ENV PORT_EXPOSE="8080"
+ENV SERVER_PORT=8080
 
-WORKDIR  /app
+WORKDIR /app
 
+RUN go install github.com/go-delve/delve/cmd/dlv@latest
+
+# pre-copy/cache go.mod for pre-downloading dependencies and only redownloading them in subsequent builds if they change
 COPY go.mod ./
 
-RUN go mod tidy
+RUN go mod download && go mod verify
 
-COPY . ./
+COPY . .
 
-RUN go build -o /pubgo
-
-EXPOSE $PORT_EXPOSE
-
-CMD ["/pubgo"]
+EXPOSE $SERVER_PORT
