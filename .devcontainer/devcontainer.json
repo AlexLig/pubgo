@@ -30,7 +30,8 @@
 		"ms-vscode-remote.remote-containers",
 		"VisualStudioExptTeam.vscodeintellicode",
 		"yzane.markdown-pdf",
-		"vscode-icons-team.vscode-icons"
+		"vscode-icons-team.vscode-icons",
+		"golang.go"
 	]
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
